@@ -1,18 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:background="@color/main_background"
+    android:paddingBottom="28dp"
+    android:paddingHorizontal="@dimen/main_padding">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height_size">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/app_name"
+            android:fontFamily="@font/yandex_display_medium"
+            android:textColor="@color/white"
+            android:textSize="@dimen/primary_text_size"
+            android:paddingTop="@dimen/panel_header_padding"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:text="@string/search_text"
+        android:fontFamily="@font/yandex_display_medium"
+        android:textColor="@color/black"
+        android:textSize="@dimen/primary_text_size"
+        android:textAllCaps="false"
+        app:icon="@drawable/ic_search"
+        app:iconTint="@color/black"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/ic_padding"
+        app:cornerRadius="@dimen/corner_radius"
+        />
+
+
+    <Button
+        android:id="@+id/media_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/main_padding"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:text="@string/media_text"
+        android:fontFamily="@font/yandex_display_medium"
+        android:textColor="@color/black"
+        android:textSize="@dimen/primary_text_size"
+        android:textAllCaps="false"
+        app:icon="@drawable/ic_media"
+        app:iconTint="@color/black"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/ic_padding"
+        app:cornerRadius="@dimen/corner_radius"
+        />
+
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/main_padding"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:text="@string/settings_text"
+        android:fontFamily="@font/yandex_display_medium"
+        android:textColor="@color/black"
+        android:textSize="@dimen/primary_text_size"
+        android:textAllCaps="false"
+        app:icon="@drawable/ic_settings"
+        app:iconTint="@color/black"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/ic_padding"
+        app:cornerRadius="@dimen/corner_radius"
+        />
+
+
+
+</LinearLayout>
+
