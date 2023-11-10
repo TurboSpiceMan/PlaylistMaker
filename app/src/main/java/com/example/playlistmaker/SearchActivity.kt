@@ -1,7 +1,6 @@
 package com.example.playlistmaker
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -39,7 +38,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         backButton.setOnClickListener{
-            MainActivity().onBackPressed()
+            MainActivity().onBackPressedDispatcher.onBackPressed()
         }
 
 
