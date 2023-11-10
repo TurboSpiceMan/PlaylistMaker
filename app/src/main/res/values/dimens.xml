@@ -2,6 +2,7 @@
 <resources>
     <dimen name="settings_text_size">16sp</dimen>
     <dimen name="primary_text_size">22sp</dimen>
+    <dimen name="track_band_text_size">11sp</dimen>
 
     <dimen name="main_padding">16dp</dimen>
     <dimen name="ic_padding">8dp</dimen>
@@ -12,5 +13,6 @@
     <dimen name="settings_item_height">61dp</dimen>
     <dimen name="header_height_size">56dp</dimen>
     <dimen name="corner_radius">16dp</dimen>
+    <dimen name="song_ic_size">45dp</dimen>
 
 </resources>

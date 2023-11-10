@@ -13,11 +13,10 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val backButton = findViewById<ImageView>(R.id.back_settings_button)
-        backButton.setOnClickListener{
-            val backIntent = Intent(this, MainActivity::class.java)
-            startActivity(backIntent)
-        }
+         val backButton = findViewById<ImageView>(R.id.back_settings_button)
+            backButton.setOnClickListener{
+                MainActivity().onBackPressed()
+            }
 
 
         val shareMenuItem = findViewById<FrameLayout>(R.id.shareApp)
