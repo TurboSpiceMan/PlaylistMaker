@@ -6,6 +6,7 @@
     <dimen name="main_padding">16dp</dimen>
     <dimen name="ic_padding">8dp</dimen>
     <dimen name="ic_size">24dp</dimen>
+    <dimen name="ic_margin_end">12dp</dimen>
     <dimen name="panel_header_padding">14dp</dimen>
     <dimen name="settings_right_padding">18dp</dimen>
     <dimen name="settings_item_height">61dp</dimen>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="mainScreenButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="fontFamily">@font/yandex_display_medium</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+        <item name="iconTint">@color/black</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/ic_padding</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="settingsMenuText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical|start</item>
+        <item name="android:layout_marginStart">@dimen/main_padding</item>
+        <item name="android:textSize">@dimen/settings_text_size</item>
+        <item name="fontFamily">@font/yandex_display_regular</item>
+        <item name="fontWeight">400</item>
+    </style>
+
+    <style name="settingsIconView">
+        <item name="android:layout_width">@dimen/ic_size</item>
+        <item name="android:layout_height">@dimen/ic_size</item>
+        <item name="android:layout_gravity">center_vertical|end</item>
+        <item name="android:layout_marginEnd">@dimen/ic_margin_end</item>
+        <item name="tint">@color/ic_settings</item>
+    </style>
+
+    <style name="panelHeaderText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/primary_text_size</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+        <item name="fontFamily">@font/yandex_display_medium</item>
+        <item name="fontWeight">500</item>
+    </style>
+
+    <style name="searchBarIcons">
+        <item name="tint">@color/gray</item>
+        <item name="android:background">@color/light_gray</item>
+    </style>
+
+    <style name="searchBar">
+        <item name="cornerRadius">8dp</item>
+        <item name="android:background">@drawable/radius_corners_search</item>
+        <item name="android:backgroundTint">@color/light_gray</item>
+    </style>
+
+    <style name="hintColor">
+        <item name="android:textColorHint">@color/gray</item>
+    </style>
+
+</resources>
