@@ -19,6 +19,7 @@
             android:id="@+id/back_settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/backButtonStyle"
             android:layout_gravity="center_vertical|start"
             android:src="@drawable/ic_arrow"
             android:layout_marginStart="@dimen/main_padding"/>

@@ -17,7 +17,6 @@
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:background">@color/black</item>
-        <item name="tint">@color/white</item>
     </style>
     
 </resources>
