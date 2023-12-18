@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TracksAdapter(private val tracks: MutableList<Track>) : RecyclerView.Adapter<TracksViewHolder>() {
+class TracksAdapter(private val tracks: MutableList<Track>) :
+    RecyclerView.Adapter<TracksViewHolder>() {
     var listener: OnItemClickListener? = null
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
@@ -31,6 +31,6 @@ class TracksAdapter(private val tracks: MutableList<Track>) : RecyclerView.Adapt
 
 }
 
-interface OnItemClickListener {
+fun interface OnItemClickListener {
     fun onItemClick(item: Track)
 }
