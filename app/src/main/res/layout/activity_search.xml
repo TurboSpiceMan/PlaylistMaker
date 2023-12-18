@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -46,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:maxLines="1"
                 android:inputType="text"
                 android:textSize="@dimen/settings_text_size"
@@ -79,6 +81,46 @@
         </FrameLayout>
 
     </FrameLayout>
+    <ImageView
+        android:id="@+id/placeholder_image_nothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/placeholderNothing"
+        android:layout_marginTop="@dimen/placeholder_margin_top"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/placeholder_image_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/placeholderNoInternet"
+        android:layout_marginTop="@dimen/placeholder_margin_top"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/placeholder_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/placeholderTextColor"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="@dimen/main_padding"
+        android:textSize="@dimen/settings_text_size"
+        android:fontFamily="@font/yandex_display_medium"
+        android:textAlignment="center"
+        android:visibility="gone"
+        />
+    <Button
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        style="@style/refreshButton"
+        android:visibility="gone"
+        />
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/trackRecycler"
