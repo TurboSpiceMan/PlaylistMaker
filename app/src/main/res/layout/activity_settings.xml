@@ -36,6 +36,7 @@
 
 
         <Switch
+            android:id="@+id/theme_switch"
             android:layout_width="56dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical|end"
