@@ -18,6 +18,6 @@
     <dimen name="refresh_button_text">14sp</dimen>
     <dimen name="refresh_corners">54dp</dimen>
     <dimen name="placeholder_margin_top">100dp</dimen>
-    <dimen name="delete_history_top">12dp</dimen>
+    <dimen name="delete_history_top">8dp</dimen>
     <dimen name="recycler_view_top">8dp</dimen>
 </resources>
