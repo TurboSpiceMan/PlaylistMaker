@@ -27,8 +27,6 @@ class TracksAdapter(private val tracks: MutableList<Track>) :
     override fun getItemCount(): Int {
         return tracks.size
     }
-
-
 }
 
 fun interface OnItemClickListener {

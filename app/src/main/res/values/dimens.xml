@@ -20,4 +20,11 @@
     <dimen name="placeholder_margin_top">100dp</dimen>
     <dimen name="delete_history_top">8dp</dimen>
     <dimen name="recycler_view_top">8dp</dimen>
+    <dimen name="guideLine_size">24dp</dimen>
+    <dimen name="guideLine_bottom">20dp</dimen>
+    <dimen name="player_header">56dp</dimen>
+    <dimen name="back_button_player_marginStart">16dp</dimen>
+    <dimen name="main_track_image_margin">24dp</dimen>
+    <dimen name="track_attributes_text_size">13sp</dimen>
+    <dimen name="artist_name_text_size_on_player">14sp</dimen>
 </resources>

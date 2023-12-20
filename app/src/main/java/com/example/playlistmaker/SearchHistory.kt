@@ -35,7 +35,6 @@ class SearchHistory(private val sharedPref: SharedPreferences) {
     }
 
     fun addTrackToHistory(track: Track, list: MutableList<Track>) {
-        // val history = readHistory()
         for (i in list.indices) {
             if (list[i].trackId == track.trackId) {
                 list.removeAt(i)
