@@ -46,6 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/trackIcon"
         app:layout_constraintTop_toBottomOf="@+id/trackName"
+        app:layout_constraintEnd_toStartOf="@id/dot_separator"
         tools:text="Rock band" />
 
     <ImageView

@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -102,10 +103,22 @@ class SearchActivity : AppCompatActivity() {
 
 
         //add click listener to recycler view
-        adapter.listener = OnItemClickListener { item ->
+        adapter.listener = OnItemClickListener { item: Track ->
             searchHistory.addTrackToHistory(item, trackHistory)
             historyAdapter.notifyDataSetChanged()
+            val intent = Intent(this, PlayerScreen::class.java).apply {
+                putExtra("track", item)
+            }
+            startActivity(intent)
+            }
+
+        historyAdapter.listener = OnItemClickListener { item: Track ->
+            val intent = Intent(this, PlayerScreen::class.java).apply {
+                putExtra("track", item)
+            }
+            startActivity(intent)
         }
+
 
         //savedInstanceState for search line
         if (savedInstanceState != null) {
@@ -164,6 +177,7 @@ class SearchActivity : AppCompatActivity() {
                     //switch between history and search
                         if (inputEditText.hasFocus() && s?.isEmpty() == true) {
                             recyclerView.adapter = historyAdapter
+                            trackList.clear()
                             historyViewVisibility(trackHistory.isNotEmpty())
                         } else {
                             historyViewVisibility(false)
@@ -192,8 +206,9 @@ class SearchActivity : AppCompatActivity() {
                     ) {
                         if (response.code() == 200) {
                             trackList.clear()
-                            if (response.body()?.results?.isNotEmpty() == true) {
-                                trackList.addAll(response.body()?.results!!)
+                            val results = response.body()?.results ?: listOf()
+                            if (results.isNotEmpty()) {
+                                trackList.addAll(results)
                                 adapter.notifyDataSetChanged()
                             }
                             if (trackList.isEmpty() && inputEditText.text.isNotEmpty()) {
@@ -206,8 +221,6 @@ class SearchActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                             showMessage(getString(R.string.noInternetError))
-
-
                     }
                 })
         }
@@ -263,3 +276,4 @@ class SearchActivity : AppCompatActivity() {
         const val STRING_VALUE = "STRING_VALUE"
     }
 }
+

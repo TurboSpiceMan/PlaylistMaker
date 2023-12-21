@@ -19,4 +19,10 @@
     <string name="refresh">Обновить</string>
     <string name="searched">Вы искали</string>
     <string name="deleteHistory">Очистить историю</string>
+    <string name="playedTimeText">04:20</string>
+    <string name="durationText">Длительность</string>
+    <string name="albumText">Альбом</string>
+    <string name="yearText">Год</string>
+    <string name="styleText">Жанр</string>
+    <string name="countryText">Страна</string>
 </resources>
