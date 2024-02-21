@@ -106,14 +106,14 @@ class SearchActivity : AppCompatActivity() {
         adapter.listener = OnItemClickListener { item: Track ->
             searchHistory.addTrackToHistory(item, trackHistory)
             historyAdapter.notifyDataSetChanged()
-            val intent = Intent(this, PlayerScreen::class.java).apply {
+            val intent = Intent(this, PlayerActivity::class.java).apply {
                 putExtra("track", item)
             }
             startActivity(intent)
             }
 
         historyAdapter.listener = OnItemClickListener { item: Track ->
-            val intent = Intent(this, PlayerScreen::class.java).apply {
+            val intent = Intent(this, PlayerActivity::class.java).apply {
                 putExtra("track", item)
             }
             startActivity(intent)

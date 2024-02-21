@@ -1,9 +1,11 @@
 package com.example.playlistmaker
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -12,30 +14,25 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerScreen : AppCompatActivity() {
+class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player_screen)
+        setContentView(R.layout.activity_player)
 
         val backIcon = findViewById<ImageView>(R.id.backIcon)
         backIcon.setOnClickListener {
             this.finish()
         }
-        fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T
-        {
-            return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                activity.intent.getSerializableExtra(name, clazz)!!
-            else
-                activity.intent.getSerializableExtra(name) as T
-        }
-        var track = getSerializable(this, "track", Track::class.java)
+
+        val track = getSerializable(this, "track", Track::class.java)
+        val corners = dpToPx(8f,this)
 
         val trackImage = findViewById<ImageView>(R.id.trackImage)
         Glide.with(this)
             .load(track.getCoverArtwork())
             .placeholder(R.drawable.ic_placeholder)
             .centerCrop()
-            .transform(RoundedCorners(2))
+            .transform(RoundedCorners(corners))
             .into(trackImage)
 
         val trackName = findViewById<TextView>(R.id.trackName)
@@ -59,5 +56,20 @@ class PlayerScreen : AppCompatActivity() {
         val country = findViewById<TextView>(R.id.countryText)
         country.text = track.country
 
+    }
+
+    fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T
+    {
+        return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            activity.intent.getSerializableExtra(name, clazz)!!
+        else
+            activity.intent.getSerializableExtra(name) as T
+    }
+
+    private fun dpToPx(dp: Float, context: Context): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            context.resources.displayMetrics).toInt()
     }
 }
