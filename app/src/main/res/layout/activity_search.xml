@@ -124,8 +124,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         >
 
         <TextView
@@ -140,6 +141,15 @@
             android:textAlignment="center"
             android:visibility="gone"
             />
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/progress_bar"
+                android:layout_height="@dimen/progress_bar"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/progress_bar"
+                android:visibility="gone"
+                />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trackRecycler"

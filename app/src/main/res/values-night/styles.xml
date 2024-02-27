@@ -146,7 +146,8 @@
     </style>
 
     <style name="playButton">
-        <item name="srcCompat">@drawable/ic_play_button_night</item>
+        <item name="srcCompat">@drawable/ic_play_button</item>
     </style>
+
 
 </resources>

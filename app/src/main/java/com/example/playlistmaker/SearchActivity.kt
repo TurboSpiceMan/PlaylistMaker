@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
@@ -12,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +37,12 @@ class SearchActivity : AppCompatActivity() {
         .build()
     private val itunesService = retrofit.create(ItunesAPI::class.java)
 
+    //handler
+    private var mainThreadHandler: Handler? = null
+
+    //click debounce boolean
+    private var isClickAllowed = true
+
     //lists of tracks
     private val trackList = mutableListOf<Track>()
     private var trackHistory = mutableListOf<Track>()
@@ -55,6 +64,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var youSearched: TextView
     private lateinit var deleteButton: Button
 
+    //progress bar
+    private lateinit var progressBar: ProgressBar
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +81,9 @@ class SearchActivity : AppCompatActivity() {
         trackHistory = searchHistory.readHistory()
         historyAdapter = TracksAdapter(trackHistory)
 
+        mainThreadHandler = Handler(Looper.getMainLooper())
+
+
         val backButton = findViewById<ImageView>(R.id.back_search_button)
         val inputEditText = findViewById<EditText>(R.id.inputEditText)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
@@ -82,6 +97,9 @@ class SearchActivity : AppCompatActivity() {
         //history textView && button init
         youSearched = findViewById(R.id.yourSearch)
         deleteButton = findViewById(R.id.deleteHistory)
+
+        //progress bar init
+        progressBar = findViewById(R.id.progressBar)
 
         //history Views visibility
         fun historyViewVisibility(check: Boolean) {
@@ -104,19 +122,25 @@ class SearchActivity : AppCompatActivity() {
 
         //add click listener to recycler view
         adapter.listener = OnItemClickListener { item: Track ->
-            searchHistory.addTrackToHistory(item, trackHistory)
-            historyAdapter.notifyDataSetChanged()
-            val intent = Intent(this, PlayerActivity::class.java).apply {
-                putExtra("track", item)
+            if (clickDebounce()) {
+                searchHistory.addTrackToHistory(item, trackHistory)
+                historyAdapter.notifyDataSetChanged()
+                val intent = Intent(this, PlayerActivity::class.java).apply {
+                    putExtra("track", item)
+                }
+                startActivity(intent)
+
             }
-            startActivity(intent)
-            }
+        }
 
         historyAdapter.listener = OnItemClickListener { item: Track ->
-            val intent = Intent(this, PlayerActivity::class.java).apply {
-                putExtra("track", item)
+            if (clickDebounce()) {
+                val intent = Intent(this, PlayerActivity::class.java).apply {
+                    putExtra("track", item)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
+
         }
 
 
@@ -134,6 +158,7 @@ class SearchActivity : AppCompatActivity() {
 
         //inputText clear button click listener
         clearButton.setOnClickListener {
+            recyclerView.isVisible = true
             inputEditText.setText("")
             showMessage("")
             trackList.clear()
@@ -159,30 +184,76 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+        fun searchMusic() {
+            if (inputEditText.text.isNotEmpty()) {
+                showMessage("")
+                recyclerView.isVisible = false
+                progressBar.isVisible = true
+
+                itunesService.search(inputEditText.text.toString())
+                    .enqueue(object : Callback<TrackResponse> {
+
+                        @SuppressLint("NotifyDataSetChanged")
+                        override fun onResponse(
+                            call: Call<TrackResponse>,
+                            response: Response<TrackResponse>
+                        ) {
+                            progressBar.isVisible = false
+                            if (response.code() == 200) {
+                                trackList.clear()
+                                val results = response.body()?.results ?: listOf()
+                                if (results.isNotEmpty()) {
+                                    recyclerView.isVisible = true
+                                    trackList.addAll(results)
+                                    adapter.notifyDataSetChanged()
+                                }
+                                if (trackList.isEmpty() && inputEditText.text.isNotEmpty()) {
+                                    showMessage(getString(R.string.nothingToFind))
+                                } else {
+                                    showMessage("")
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                            progressBar.isVisible = false
+                            showMessage(getString(R.string.noInternetError))
+                        }
+                    })
+            }
+        }
+
+        //search with debounce
+        val searchRunnable = Runnable { searchMusic() }
+        fun searchDebounce () {
+            mainThreadHandler?.removeCallbacks(searchRunnable)
+            mainThreadHandler?.postDelayed(searchRunnable, SEARCH_DELAY)
+        }
+
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchDebounce()
                 if (s != null) {
                     clearButton.isVisible = s.isNotEmpty()
-                }
 
-                //if clear edit text, placeHolders will gone
-                if (s != null) {
+                    //if clear edit text, placeHolders will gone
                     if (s.isEmpty()) {
                         showMessage("")
                     }
 
                     //switch between history and search
-                        if (inputEditText.hasFocus() && s?.isEmpty() == true) {
-                            recyclerView.adapter = historyAdapter
-                            trackList.clear()
-                            historyViewVisibility(trackHistory.isNotEmpty())
-                        } else {
-                            historyViewVisibility(false)
-                            recyclerView.adapter = adapter
-                        }
+                    if (inputEditText.hasFocus() && s?.isEmpty() == true) {
+                        recyclerView.isVisible = true
+                        recyclerView.adapter = historyAdapter
+                        trackList.clear()
+                        historyViewVisibility(trackHistory.isNotEmpty())
+                    } else {
+                        historyViewVisibility(false)
+                        recyclerView.adapter = adapter
+                    }
                 }
             }
 
@@ -194,49 +265,22 @@ class SearchActivity : AppCompatActivity() {
         //add listener to edit text
         inputEditText.addTextChangedListener(textWatcher)
 
-
-        fun searchMusic() {
-            itunesService.search(inputEditText.text.toString())
-                .enqueue(object : Callback<TrackResponse> {
-
-                    @SuppressLint("NotifyDataSetChanged")
-                    override fun onResponse(
-                        call: Call<TrackResponse>,
-                        response: Response<TrackResponse>
-                    ) {
-                        if (response.code() == 200) {
-                            trackList.clear()
-                            val results = response.body()?.results ?: listOf()
-                            if (results.isNotEmpty()) {
-                                trackList.addAll(results)
-                                adapter.notifyDataSetChanged()
-                            }
-                            if (trackList.isEmpty() && inputEditText.text.isNotEmpty()) {
-                                showMessage(getString(R.string.nothingToFind))
-                            } else {
-                                showMessage("")
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                            showMessage(getString(R.string.noInternetError))
-                    }
-                })
-        }
-
         //no internet refresh button listener
         refreshButton.setOnClickListener { searchMusic() }
+    }
 
-        //keyboard listener for search
-        inputEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchMusic()
-                true
-            } else {
-                false
-            }
+    private fun clickDebounce () : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            mainThreadHandler?.postDelayed({isClickAllowed = true}, CLICK_DELAY)
         }
+        return current
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainThreadHandler?.removeCallbacksAndMessages(null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -274,6 +318,8 @@ class SearchActivity : AppCompatActivity() {
 
     private companion object {
         const val STRING_VALUE = "STRING_VALUE"
+        private const val SEARCH_DELAY = 2000L
+        private const val CLICK_DELAY = 1000L
     }
 }
 
